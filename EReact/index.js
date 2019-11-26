@@ -13,7 +13,6 @@ const createElement = (type, props = {}, ...children) => {
     componentInstance.__props = componentInstance.props;
     componentInstance.__state = componentInstance.state;
 
-    console.log(componentInstance);
     // 增加钩子函数（当虚拟DOM被添加到真是DOM节点上时）
     componentInstance.__vNode.data.hook = {
       create: () => {

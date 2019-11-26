@@ -17,9 +17,9 @@ const render = (rootDomElement, el) => {
   if (rootEl == null) {
     rootEl = el;
   }
-  // 将el渲染值rootDomElement
-  // console.log(reconcile(el, rootVNode));
-  _reconcile(rootVNode, el);
+  // 将rootDomElement渲染至el 渲染虚拟dom
+  rootVNode = _reconcile(rootVNode, el);
+  console.log(rootVNode);
 };
 
 // EReactDom 通知EReact 如何更新Dom
@@ -32,10 +32,15 @@ EReact.__updater = componentInstance => {
   // 获取新的 vNode
   const newVNode = componentInstance.render();
 
+  console.log({ componentInstance, newVNode, oldVNode }, oldVNode.elm);
 
-  console.log({ newVNode, oldVNode });
-  // 更新DOM
-  // componentInstance.__vNode = reconcile(oldVNode, newVNode);
+  // 更新DOM no diff
+  // while (oldVNode.elm.hasChildNodes()) {
+  //   oldVNode.elm.removeChild(oldVNode.elm.lastChild);
+  // }
+  componentInstance.__vNode = _reconcile(newVNode, oldVNode.elm, "REFRESH");
+  componentInstance.__props = componentInstance.props;
+  componentInstance.__state = componentInstance.state;
 };
 
 const EReactDom = {

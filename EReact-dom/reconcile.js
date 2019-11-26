@@ -2,7 +2,7 @@ const isListener = propName => propName.startsWith("on");
 const isAttribute = propName =>
   !isListener(propName) && propName !== "children";
 
-const reconcile = (vdom, el) => {
+const reconcile = (vdom, el, REFRESH) => {
   const { type, props, data } = vdom;
 
   const isTextElement = type === "TEXT";
@@ -47,8 +47,15 @@ const reconcile = (vdom, el) => {
   childElement.forEach(element => reconcile(element, dom));
 
   // 插入真实DOM
-  el.appendChild(dom);
+  if (REFRESH) {
+    el.parentNode.replaceChild(dom, el);
+  } else {
+    el.appendChild(dom);
+  }
+  // 保存真实dom至所对应虚拟dom
+  vdom.elm = dom;
 
+  // 生命周期钩子
   data.hook && data.hook.create && data.hook.create();
   data.hook && data.hook.create && data.hook.updated();
 

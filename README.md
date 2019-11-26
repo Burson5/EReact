@@ -21,7 +21,3 @@ npm install
 ```sh
 npm start
 ```
-
-## License
-
-MIT © [Ameer Jhan](mailto:ameerjhanprof@gmail.com)
