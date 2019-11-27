@@ -3,7 +3,11 @@ import EReact, { Component } from "../EReact/index";
 class Change extends Component {
   constructor(props) {
     super(props);
-    this.state = { color: "#f00" };
+    this.state = { color: "#000" };
+  }
+
+  componentDidMount() {
+    console.log("change color component init");
   }
 
   change() {

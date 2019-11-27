@@ -21,8 +21,9 @@ class Counter extends Component {
     this.setState({ count: this.state.count + 1 });
   }
 
-  vChange(v) {
-    this.setState({ value: v });
+  vChange(value) {
+    this.setState({ value });
+    console.log(value);
   }
 
   back() {
@@ -44,10 +45,7 @@ class Counter extends Component {
         >
           <Change />
         </div>
-        {/* <input
-          value={this.state.value}
-          onChange={this.vChange.bind(this.value)}
-        ></input> */}
+        <input value={this.state.value} onChange={this.vChange.bind(this)} />
         <button onClick={this.back.bind(this)}>click background</button>
       </div>
     );

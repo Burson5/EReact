@@ -1,5 +1,4 @@
-import { h } from "snabbdom";
-import $createElement from "./createElement";
+import __createElement from "./createElement";
 
 const createElement = (type, props = {}, ...children) => {
   // console.log(typeof type, type);
@@ -7,32 +6,38 @@ const createElement = (type, props = {}, ...children) => {
   // babel将ES6-class转译为普通函数
   if (type.prototype && type.prototype instanceof Component) {
     // class实例化 并调用render
-    const componentInstance = new type(props);
-    componentInstance.componentwillMount();
-    componentInstance.__vNode = componentInstance.render();
-    componentInstance.__props = componentInstance.props;
-    componentInstance.__state = componentInstance.state;
 
-    // 增加钩子函数（当虚拟DOM被添加到真是DOM节点上时）
-    componentInstance.__vNode.data.hook = {
-      create: () => {
-        componentInstance.componentDidMount();
-      },
-      willReceive: (nextProps, preProps) => {
-        componentInstance.componentWillReceiveProps(nextProps, preProps);
-      },
-      shouleUpdate: () => {
-        componentInstance.shouldComponentUpdate();
-      },
-      updated: () => {
-        componentInstance.componentDidUpdate();
-      },
-      unmount: () => {
-        componentInstance.componentWillUnmount();
-      }
-    };
+    // component 仅实例化一次保存于 instance 中
+    if (!type.instance) {
+      type.instance = new type(props);
 
-    return componentInstance.__vNode;
+      type.instance.componentwillMount();
+
+      type.instance.__vNode = type.instance.render();
+      type.instance.__props = type.instance.props;
+      type.instance.__state = type.instance.state;
+
+      // 增加钩子函数（当虚拟DOM被添加到真是DOM节点上时）
+      type.instance.__vNode.data.hook = {
+        create: () => {
+          type.instance.componentDidMount();
+        },
+        willReceive: (nextProps, preProps) => {
+          type.instance.componentWillReceiveProps(nextProps, preProps);
+        },
+        shouleUpdate: () => {
+          type.instance.shouldComponentUpdate();
+        },
+        updated: () => {
+          type.instance.componentDidUpdate();
+        },
+        unmount: () => {
+          type.instance.componentWillUnmount();
+        }
+      };
+    }
+
+    return type.instance.__vNode;
   }
 
   if (typeof type === "function") {
@@ -55,7 +60,7 @@ const createElement = (type, props = {}, ...children) => {
 
   // return h(type, { props: dataProps, on: eventProps }, children);
 
-  return $createElement(type, props, children);
+  return __createElement(type, props, children);
 };
 
 class Component {
