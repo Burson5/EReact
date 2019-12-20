@@ -4,32 +4,36 @@
   "description": "This is a very basic webpack setup with just ES6 support and everything else is left upto your creativity",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config webpack.dev.js --mode development",
     "dll": "webpack --config webpack.dll.js --mode production",
     "build": "webpack --config webpack.prod.js --mode production",
-    "preview": "npm run build && http-server dist",
-    "kickstart": "node kickstarter"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ameerthehacker/webpack-starter-pack.git"
+    "log": "conventional-changelog -p angular -i CHANGELOG.md -s -w -r 0"
   },
   "keywords": [
     "react"
   ],
-  "author": "ameerthehacker",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ameerthehacker/webpack-starter-pack/issues"
+  "config": {
+    "commitizen": {
+      "path": "cz-customizable"
+    }
   },
-  "homepage": "https://github.com/ameerthehacker/webpack-starter-pack#readme",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint --env HUSKY_GIT_PARAMS",
+      "post-commit": "npm run log"
+    }
+  },
   "dependencies": {
     "list-diff2": "^0.1.4",
     "normalize.css": "^8.0.0",
     "snabbdom": "^0.7.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "conventional-changelog-cli": "^2.0.31",
+    "husky": "^3.1.0",
     "@babel/core": "^7.6.4",
     "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/preset-env": "^7.6.3",
