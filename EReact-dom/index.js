@@ -1,46 +1,43 @@
 import EReact from "../EReact/index";
-import _reconcile from "./reconcile";
-
-// import * as snabbdom from "snabbdom";
-// import propsMoudle from "snabbdom/modules/props";
-// import eventListenersMoudle from "snabbdom/modules/eventlisteners";
-
-// const reconcile = snabbdom.init([propsMoudle, eventListenersMoudle]);
+import _render from "./render";
+// import diff from "./diff";
 
 let rootVNode, rootEl;
 
-const render = (rootDomElement, el) => {
+const render = (vNode, el) => {
   if (rootVNode == null) {
     // 首次调用
-    rootVNode = rootDomElement;
+    rootVNode = vNode;
   }
   if (rootEl == null) {
     rootEl = el;
   }
+  console.log(rootVNode)
   // 将rootDomElement渲染至el 渲染虚拟dom
-  rootVNode = _reconcile(rootVNode, el);
-  console.log(rootVNode);
+  rootVNode = _render(rootVNode, el);
 };
 
 // EReactDom 通知EReact 如何更新Dom
-EReact.__updater = componentInstance => {
+EReact.__updater = instance => {
   // 当调用this.setState 时更新DOM
 
   // 获取__vNode上存储的 vNode
-  const oldVNode = componentInstance.__vNode;
+  const oldVNode = instance.__vNode;
 
   // 获取新的 vNode
-  const newVNode = componentInstance.render();
+  const newVNode = instance.render();
 
-  console.log({ componentInstance, newVNode, oldVNode }, oldVNode.elm);
+  console.log({ instance, newVNode, oldVNode }, oldVNode.elm);
 
   // 更新DOM no diff
-  // while (oldVNode.elm.hasChildNodes()) {
-  //   oldVNode.elm.removeChild(oldVNode.elm.lastChild);
-  // }
-  componentInstance.__vNode = _reconcile(newVNode, oldVNode.elm, "REFRESH");
-  componentInstance.__props = componentInstance.props;
-  componentInstance.__state = componentInstance.state;
+  instance.__vNode = _render(newVNode, oldVNode.elm, "REFRESH");
+  instance.__props = instance.props;
+  instance.__state = instance.state;
+
+  // 使用 对比新旧虚拟DOM更新
+  // const container = oldVNode.elm.parentNode;
+  // instance.__vNode = diff(oldVNode, newVNode, container);
+
 };
 
 const EReactDom = {

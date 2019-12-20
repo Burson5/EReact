@@ -1,9 +1,16 @@
 import EReact, { Component } from "../EReact/index";
 import Change from "./changeColor";
+import Change2 from "./changeColor2";
 class Counter extends Component {
   constructor(props) {
     super(props);
-    this.state = { count: 0, value: "123", back: "#0ff", border: "#0f0" };
+    this.state = {
+      count: 0,
+      value: "123",
+      back: "#0ff",
+      border: "#0f0",
+      class: true
+    };
 
     // setInterval(() => {
     //   this.setState({ count: this.state.count + 1 });
@@ -33,19 +40,32 @@ class Counter extends Component {
     });
   }
 
+  change() {
+    this.setState({
+      class: !this.state.class
+    });
+  }
+
   render() {
     return (
       <div>
         <p>Count: {this.state.count}</p>
-        <button onClick={this.countAdd.bind(this)}>count add one</button>
+        <button con={"2333"} onClick={this.countAdd.bind(this)}>
+          count add one
+        </button>
         <br />
 
         <div
           style={`background: ${this.state.back}; border: 1px solid ${this.state.border};border-radius: 5px;`}
         >
-          <Change />
+          {this.state.class ? <Change /> : <Change2 />}
         </div>
-        <input value={this.state.value} onChange={this.vChange.bind(this)} />
+        <button onClick={this.change.bind(this)}>change</button>
+        <input
+          value={this.state.value}
+          placeholder="2333333"
+          onChange={this.vChange.bind(this)}
+        />
         <button onClick={this.back.bind(this)}>click background</button>
       </div>
     );

@@ -21,7 +21,7 @@ class Change extends Component {
   render() {
     return this.state.visiable ? (
       <div>
-        <p style={{ color: this.state.color }}>color: {this.state.color}</p>
+        <p style={{ color: this.state.color }}>color2: {this.state.color}</p>
         <button onClick={this.change.bind(this)}>count add one</button>
         {/* {x.map(item => (
           <div>{item}</div>

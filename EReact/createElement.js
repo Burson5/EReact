@@ -1,9 +1,9 @@
 const TEXT_ELEMENT = "TEXT";
 
 const createTextElement = value =>
-  $createElement(TEXT_ELEMENT, { nodeValue: value });
+  __createElement(TEXT_ELEMENT, { nodeValue: value });
 
-const $createElement = (type, _props, ...children) => {
+const __createElement = (type, _props, ...children) => {
   // 浅拷贝
   const props = Object.assign({}, _props);
   const data = { hook: {} };
@@ -12,11 +12,12 @@ const $createElement = (type, _props, ...children) => {
   const hasChildren = children.length > 0;
   const mergeChildren = hasChildren ? [].concat(...children) : [];
 
-  props.children = mergeChildren
+  const childrens = mergeChildren
     .filter(c => c !== null && c !== false)
     .map(c => (c instanceof Object ? c : createTextElement(c)));
 
-  return { type, props, data };
+  // console.log({ type, props, childrens, data });
+  return { type, props, childrens, data };
 };
 
-export default $createElement;
+export default __createElement;

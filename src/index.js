@@ -10,6 +10,7 @@ const App = (
   <div>
     <h1 className="primary" style={{ color: "#00f" }}>
       一个简单的标题
+      <div>233</div>
     </h1>
     <p style={"color: #0f0;"}>一个简单的内容</p>
     <Welcome name={"EReact"} />

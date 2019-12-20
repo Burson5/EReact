@@ -45,21 +45,6 @@ const createElement = (type, props = {}, ...children) => {
     return type(props);
   }
 
-  // let dataProps = {};
-  // let eventProps = {};
-
-  // for (let propKey in props) {
-  //   // event 属性总是以 `on` 开头
-  //   if (propKey.startsWith("on")) {
-  //     const event = propKey.substring(2).toLowerCase();
-  //     eventProps[event] = props[propKey];
-  //   } else {
-  //     dataProps[propKey] = props[propKey];
-  //   }
-  // }
-
-  // return h(type, { props: dataProps, on: eventProps }, children);
-
   return __createElement(type, props, children);
 };
 
