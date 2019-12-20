@@ -29,14 +29,15 @@ EReact.__updater = instance => {
 
   console.log({ instance, newVNode, oldVNode }, oldVNode.elm);
 
+  // 使用 对比新旧虚拟DOM更新
+  // const container = oldVNode.elm.parentNode;
+  // instance.__vNode = diff(oldVNode, newVNode, container);
+
   // 更新DOM no diff
   instance.__vNode = _render(newVNode, oldVNode.elm, "REFRESH");
   instance.__props = instance.props;
   instance.__state = instance.state;
 
-  // 使用 对比新旧虚拟DOM更新
-  // const container = oldVNode.elm.parentNode;
-  // instance.__vNode = diff(oldVNode, newVNode, container);
 
 };
 

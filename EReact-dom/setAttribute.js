@@ -8,10 +8,15 @@ const setAttribute = (type, props, dom) => {
   // 事件监听
   propsKeys.filter(isListener).forEach(name => {
     const eventType = name.toLowerCase().substring(2);
+    const value = props[name];
     if (type === "input" && eventType === "change") {
-      dom.addEventListener("input", e => {
-        props[name](e.target.value);
-      });
+      if (value) {
+        dom.addEventListener("input", e => {
+          props[name](e.target.value);
+        });
+      } else {
+        dom.removeEventListener();
+      }
     } else {
       dom.addEventListener(eventType, props[name]);
     }
